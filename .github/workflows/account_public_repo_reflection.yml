@@ -1,0 +1,24 @@
+name: Account Public Repo Reflection
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * 1'
+permissions:
+  contents: read
+jobs:
+  reflect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Scan every owned public repository
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_OWNER: letsgo0226
+        run: python Account_Public_Repo_Reflection.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: account-public-repo-reflection
+          path: account_reflection/
